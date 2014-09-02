@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+    </h:head>
+     <h:body>
+        <h:form id="dadosCliente">
+            <fieldset style="width: 350px">
+                <legend>Novo Pedido</legend>
+                <h:commandButton value="Novo" action="#{pedidoBean.novo}" />
+            </fieldset>
+            <fieldset style="width: 350px">
+                <legend>Dados do cliente</legend>
+                <h:panelGrid columns="4">
+                    <h:outputText value="Nome" />
+                    <h:inputText value="#{pedidoBean.pedido.usuario.nome}" disabled="true"/>
+                    <h:commandButton value="Gravar" action="#{pedidoBean.gravar}" />
+                    <h:commandButton value="Remover" action="#{pedidoBean.remover}" rendered="#{pedidoBean.pedido.id > 0}" />
+                </h:panelGrid>
+            </fieldset>
+            
+             <fieldset style="width: 350px" >
+                <legend>Itens Cliente</legend>
+                <h:dataTable value="#{pedidoBean.pedido.itens}" var="iten" border="1">
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="NOME" /></f:facet>
+                        <h:outputText value="#{iten.nome}" />
+                    </h:column>
+                                  
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="DESCRIÇÃO" /></f:facet>
+                        <h:outputText value="#{iten.descricao}" />
+                    </h:column>
+                                       
+                </h:dataTable>
+            </fieldset>
+        
+            <fieldset style="width: 350px">
+                <legend>Pedido</legend>
+                <h:dataTable value="#{pedidoBean.pedidos}" var="pedido" border="1">
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="CODIGO" /></f:facet>
+                        <h:outputText value="#{pedido.id}" />
+                    </h:column>
+                                  
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="DATA PEDIDO" /></f:facet>
+                        <h:outputText value="#{pedido.dataPedido}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="NOME CLIENTE" /></f:facet>
+                        <h:outputText value="#{pedido.usuario.nome}" />
+                    </h:column>
+                    
+                    <h:column>
+                        <f:facet name="header"><h:outputText value="QUANT ITENS" /></f:facet>
+                        <h:outputText value="#{pedido.itens.size}" />
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Selecionar" actionListener="#{pedidoBean.selecionar}">
+                            <f:attribute name="codigo" value="#{pedido.id}" />
+                            <f:ajax render="@this :dadosCliente" execute="@this" />
+                        </h:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </fieldset>
+        </h:form>
+    </h:body>
+</html>
+
